@@ -1,4 +1,4 @@
-name: Deploy miserv.io infrastructure
+name: Destroy miserv.io infrastructure
 on:
   workflow_dispatch:
 
