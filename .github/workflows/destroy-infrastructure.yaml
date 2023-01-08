@@ -15,6 +15,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
+
+      - name: Terraform init
+        run: |
+          terraform init \
+          -backend-config="bucket=miservio-terraform-state" \
+          -backend-config="key=terraform.tfstate" \
+          -backend-config="region=eu-west-1"
+
       - name: Terraform destroy
         run: |
           terraform destroy -auto-approve
