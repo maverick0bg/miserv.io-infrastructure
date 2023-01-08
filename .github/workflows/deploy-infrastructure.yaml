@@ -1,7 +1,7 @@
 name: Deploy miserv.io infrastructure
 on:
   push:
-    branches: ["main", "feature/create_aws_postgre"]
+    branches: ["main", "feature/add_destroy_action"]
 
 jobs:
   deploy_aws_infrastructure:
