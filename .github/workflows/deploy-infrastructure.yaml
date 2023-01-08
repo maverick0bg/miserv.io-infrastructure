@@ -1,7 +1,7 @@
 name: Deploy miserv.io infrastructure
 on:
   push:
-    branches: ["main", "feature/create_aws_postgre"]
+    branches: ["main", "feature/add_destroy_action"]
 
 jobs:
   deploy_aws_infrastructure:
@@ -18,7 +18,7 @@ jobs:
           aws-region: eu-west-1
       - name: Create S3 state bucket
         run: |
-          aws s3 mb s3://miservio-terraform-state
+          aws s3 mb s3://miservio-terraform-state || true
 
       - name: Terraform init
         run: |
