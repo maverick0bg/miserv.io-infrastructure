@@ -1,5 +1,4 @@
 data "aws_caller_identity" "current" {}
-data "aws_availability_zones" "available" {}
 
 locals {
   db_instance_name = "miserv-postgres"
@@ -33,7 +32,7 @@ module "db" {
   port     = 5432
 
   multi_az               = true
-  db_subnet_group_name   = module.vpc.database_subnet_group
+  db_subnet_group_name   = module.vpc-database.database_subnet_group
   vpc_security_group_ids = [module.security_group.security_group_id]
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
