@@ -1,8 +1,8 @@
-module "vpc" {
+module "vpc" "database"{
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.0"
+  version = "~> 3.19.0"
 
-  name = local.name
+  name = "${local.name}-db"
   cidr = local.vpc_cidr
 
   azs              = local.azs
@@ -21,7 +21,7 @@ module "security_group" {
 
   name        = local.name
   description = "Complete PostgreSQL example security group"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = module.vpc.database.vpc_id
 
   # ingress
   ingress_with_cidr_blocks = [

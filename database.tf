@@ -3,8 +3,6 @@ data "aws_availability_zones" "available" {}
 
 locals {
   db_instance_name = "miserv-postgres"
-  vpc_cidr         = "10.0.0.0/16"
-  azs              = slice(data.aws_availability_zones.available.names, 0, 3)
   tags = {
     Name       = local.name
     Repository = "https://github.com/terraform-aws-modules/terraform-aws-rds"
