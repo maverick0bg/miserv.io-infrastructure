@@ -1,11 +1,11 @@
-name: Deploy miserv.io infrastructure
+name: Validate miserv.io infrastructure
 on:
-  push:
+  pull_request:
     branches: ["main"]
 
 jobs:
   deploy_aws_infrastructure:
-    name: Deploy the AWS infrastructure
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,6 +29,16 @@ jobs:
           -backend-config="key=terraform.tfstate" \
           -backend-config="region=eu-west-1"
 
-      - name: Terraform apply
+      - name: Terraform validate
         run: |
-          terraform apply -auto-approve
+          terraform validate \
+          -backend-config="bucket=miservio-terraform-state" \
+          -backend-config="key=terraform.tfstate" \
+          -backend-config="region=eu-west-1"
+
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+          -backend-config="bucket=miservio-terraform-state" \
+          -backend-config="key=terraform.tfstate" \
+          -backend-config="region=eu-west-1"
