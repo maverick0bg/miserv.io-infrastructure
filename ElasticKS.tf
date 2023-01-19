@@ -15,7 +15,7 @@ module "eks" {
   }
 
   manage_aws_auth_configmap = true
-  aws_auth_users = [
+  aws_auth_roles = [
     {
       userarn  = "arn:aws:iam::527321763428:user/gh-actions"
       username = "gh-actions"
