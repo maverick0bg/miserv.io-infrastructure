@@ -31,26 +31,26 @@ data "aws_iam_policy_document" "github_assume_role_policy" {
 # Create a role policy that would allow fetching cluster info. 
 # This would help us avoid storing cluster's kube config in GitHub Action's secrets
 resource "aws_iam_role_policy" "github_oidc_eks_policy" {
-    name = "github-oidc-eks-policy"
-    role = aws_iam_role.github_oidc_auth_role.id
+  name = "github-oidc-eks-policy"
+  role = aws_iam_role.github_oidc_auth_role.id
 
-    policy = jsonencode({
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Sid": "VisualEditor0",
-                "Effect": "Allow",
-                "Action": "eks:DescribeCluster",
-                "Resource": "arn:aws:eks:*:*:cluster/*"
-            },
-            {
-                "Sid": "VisualEditor1",
-                "Effect": "Allow",
-                "Action": "eks:ListClusters",
-                "Resource": "*"
-            }
-        ]
-    })
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : "eks:DescribeCluster",
+        "Resource" : "arn:aws:eks:*:*:cluster/*"
+      },
+      {
+        "Sid" : "VisualEditor1",
+        "Effect" : "Allow",
+        "Action" : "eks:ListClusters",
+        "Resource" : "*"
+      }
+    ]
+  })
 }
 
 # Creating a role. It will used as value to role_to_assume for Configure AWS Crendentials action.

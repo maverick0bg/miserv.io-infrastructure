@@ -2,7 +2,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "19.5.1"
 
-  cluster_name    = "miserv-io-eks-cluster"
+  cluster_name    = local.cluster_name
   cluster_version = "1.24"
 
   vpc_id                         = module.vpc-eks.vpc_id
@@ -50,15 +50,16 @@ module "eks" {
 
 # Creates a kubernetes cluster role with necessary access to deploy
 resource "kubernetes_cluster_role" "github_oidc_cluster_role" {
-    metadata {
-        name = "github-oidc-cluster-role"
-    }
+  metadata {
+    name = "github-oidc-cluster-role"
 
-    rule {
-        api_groups  = ["*"]
-        resources   = ["deployments","pods","services"]
-        verbs       = ["get", "list", "watch", "create", "update", "patch", "delete"]
-    }
+  }
+
+  rule {
+    api_groups = ["*"]
+    resources  = ["deployments", "pods", "services"]
+    verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
+  }
 }
 
 # Creates a cluster role binding between the above kubernetes cluster role and the user
@@ -68,8 +69,8 @@ resource "kubernetes_cluster_role_binding" "github_oidc_cluster_role_binding" {
   }
 
   subject {
-    kind = "User"
-    name =  "github-oidc-auth-user"
+    kind      = "User"
+    name      = "github-oidc-auth-user"
     api_group = "rbac.authorization.k8s.io"
   }
 
@@ -84,19 +85,19 @@ resource "kubernetes_config_map" "aws-auth" {
   data = {
     "mapRoles" = yamlencode([
       {
-        "groups": ["system:bootstrappers", "system:nodes"],
-        "rolearn": aws_iam_role.github_oidc_auth_role.arn
-        "username": "system:admin"
+        "groups" : ["system:bootstrappers", "system:nodes"],
+        "rolearn" : aws_iam_role.github_oidc_auth_role.arn
+        "username" : "system:admin"
       },
       {
-        "rolearn": aws_iam_role.github_oidc_auth_role.arn
-        "username": "github-oidc-auth-user"
-        
+        "rolearn" : aws_iam_role.github_oidc_auth_role.arn
+        "username" : "github-oidc-auth-user"
+
       }
     ])
 
     "mapAccounts" = yamlencode([])
-    "mapUsers" = yamlencode([])
+    "mapUsers"    = yamlencode([])
   }
 
   metadata {
