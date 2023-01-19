@@ -58,17 +58,3 @@ resource "aws_iam_role" "github_oidc_auth_role" {
   assume_role_policy = data.aws_iam_policy_document.github_assume_role_policy.json
   name               = "github-oidc-auth-role"
 }
-
-# Creates a kubernetes cluster role with necessary access to deploy
-resource "kubernetes_cluster_role" "github_oidc_cluster_role" {
-    metadata {
-        name = "github-oidc-cluster-role"
-    }
-
-    rule {
-        api_groups  = ["*"]
-        resources   = ["deployments","pods","services"]
-        verbs       = ["get", "list", "watch", "create", "update", "patch", "delete"]
-    }
-}
-

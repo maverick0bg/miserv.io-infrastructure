@@ -37,6 +37,7 @@ module "eks" {
   }
 }
 
+
 # Creates a kubernetes cluster role with necessary access to deploy
 resource "kubernetes_cluster_role" "github_oidc_cluster_role" {
     metadata {
@@ -74,7 +75,7 @@ resource "kubernetes_config_map" "aws-auth" {
     "mapRoles" = yamlencode([
       {
         "groups": ["system:bootstrappers", "system:nodes"],
-        "rolearn": data.aws_iam_role.workers.arn
+        "rolearn": aws_iam_role.github_oidc_auth_role.arn
         "username": "system:node:{{EC2PrivateDNSName}}"
       },
       {
