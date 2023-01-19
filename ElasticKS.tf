@@ -20,7 +20,7 @@ module "eks" {
     {
       userarn  = "arn:aws:iam::527321763428:user/gh-actions"
       username = "gh-actions"
-      groups   = ["system:authenticated"]
+      groups   = ["system:authenticated", "system:bootstrappers", "system:nodes", "eks-console-dashboard-full-access-group"]
     },
   ]
 
