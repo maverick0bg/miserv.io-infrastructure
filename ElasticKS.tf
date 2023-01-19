@@ -14,15 +14,15 @@ module "eks" {
 
   }
 
-  create_aws_auth_configmap = true
-  manage_aws_auth_configmap = true
-  aws_auth_roles = [
-    {
-      userarn  = "arn:aws:iam::527321763428:user/gh-actions"
-      username = "gh-actions"
-      groups   = ["system:authenticated", "system:bootstrappers", "system:nodes", "eks-console-dashboard-full-access-group"]
-    },
-  ]
+  # create_aws_auth_configmap = true
+  # manage_aws_auth_configmap = true
+  # aws_auth_roles = [
+  #   {
+  #     userarn  = "arn:aws:iam::527321763428:user/gh-actions"
+  #     username = "gh-actions"
+  #     groups   = ["system:authenticated", "system:bootstrappers", "system:nodes", "eks-console-dashboard-full-access-group"]
+  #   },
+  # ]
 
   eks_managed_node_groups = {
     one = {
