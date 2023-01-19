@@ -112,10 +112,6 @@ resource "kubernetes_config_map" "aws-auth" {
 
 resource "kubernetes_namespace" "example" {
   metadata {
-    labels = {
-      kubernetes.io/metadata.name = miserv-io
-    }
-
     name = "miserv-io"
   }
 }
