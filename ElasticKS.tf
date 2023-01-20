@@ -1,18 +1,19 @@
-resource "aws_eks_cluster" "eks" {
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "19.5.1"
 
-  name     = local.cluster_name
-  role_arn = aws_iam_role.amazon-role.arn
-  version  = "1.24"
+  cluster_name    = local.cluster_name
+  cluster_version = "1.24"
 
-  vpc_config {
-    subnet_ids = module.vpc.private_subnets
+  vpc_id                         = module.vpc.vpc_id
+  subnet_ids                     = module.vpc.private_subnets
+  cluster_endpoint_public_access = true
+
+  eks_managed_node_group_defaults = {
+    ami_type = "AL2_x86_64"
+
   }
-  depends_on = [
-    aws_iam_role_policy_attachment.amazon-role-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.amazon-role-AmazonEKSVPCResourceController,
-  ]
 }
-
 
 # Creates a kubernetes cluster role with necessary access to deploy
 resource "kubernetes_cluster_role" "github_oidc_cluster_role" {
@@ -111,41 +112,5 @@ resource "kubernetes_config_map" "aws-auth" {
 resource "kubernetes_namespace" "example" {
   metadata {
     name = "miserv-io"
-  }
-}
-
-resource "aws_eks_node_group" "example" {
-  cluster_name    = aws_eks_cluster.eks.name
-  node_group_name = "one"
-  node_role_arn   = aws_iam_role.amazon-role.arn
-  subnet_ids      = module.vpc.private_subnets
-
-  scaling_config {
-    desired_size = 1
-    max_size     = 2
-    min_size     = 1
-  }
-
-  update_config {
-    max_unavailable = 1
-  }
-
-  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
-  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
-  depends_on = [
-    aws_iam_role_policy_attachment.example-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.example-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
-  ]
-}
-
-resource "aws_eks_fargate_profile" "example" {
-  cluster_name           = aws_eks_cluster.eks.name
-  fargate_profile_name   = "miserv-io-fargateProfie"
-  pod_execution_role_arn = aws_iam_role.amazon-role.arn
-  subnet_ids             = module.vpc.private_subnets
-
-  selector {
-    namespace = "miserv-io"
   }
 }
