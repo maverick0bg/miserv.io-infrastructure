@@ -26,7 +26,7 @@ jobs:
         run: |
           terraform -chdir=./kubernetes init \
           -backend-config="bucket=miservio-terraform-state" \
-          -backend-config="key=terraform.tfstate" \
+          -backend-config="key=terraform-kube.tfstate" \
           -backend-config="region=eu-west-1"
 
       - name: tf destroy kubernetes
@@ -42,5 +42,4 @@ jobs:
 
       - name: Terraform destroy
         run: |
-          aws eks update-kubeconfig --region eu-west-1 --name miserv-io-eks-cluster
-          terraform destroy -auto-approve
+           terraform destroy -auto-approve
