@@ -90,6 +90,11 @@ resource "kubernetes_config_map" "aws-auth" {
         "username" : "system:admin"
       },
       {
+        "groups": ["system:bootstrappers", "system:nodes"],
+        "rolearn": data.aws_iam_role.workers.arn
+        "username": "system:node:{{EC2PrivateDNSName}}"
+      },
+      {
         "rolearn" : aws_iam_role.github_oidc_auth_role.arn
         "username" : "github-oidc-auth-user"
 
