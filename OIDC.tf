@@ -112,5 +112,5 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryRea
 
 resource "aws_iam_role_policy_attachment" "example-AmazonEKSFargatePodExecutionRolePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
-  role       = aws_iam_role.example.name
+  role       = aws_iam_role.amazon-role.name
 }
