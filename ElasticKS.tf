@@ -40,10 +40,10 @@ module "eks" {
   # Fargate Profile(s)
   fargate_profiles = {
     default = {
-      name = "default"
+      name = "fg-${local.name}"
       selectors = [
         {
-          namespace = "default"
+          namespace = "miserv-io"
         }
       ]
     }
