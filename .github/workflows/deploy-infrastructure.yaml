@@ -40,13 +40,13 @@ jobs:
 
       - name: tf init kube
         run: |
-          terraform init -chdir=./kubernetes \
+          terraform -chdir=./kubernetes init \
           -backend-config="bucket=miservio-terraform-state" \
           -backend-config="key=terraform.tfstate" \
           -backend-config="region=eu-west-1"
 
       - name: tf apply
         run: |
-          terraform apply -auto-approve -chdir=./kubernetes
+          terraform -chdir=./kubernetes apply -auto-approve 
 
       

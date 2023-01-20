@@ -44,15 +44,15 @@ jobs:
 
       - name: tf init kube
         run: |
-          terraform init -chdir=./kubernetes \
+          terraform -chdir=./kubernetes init \
           -backend-config="bucket=miservio-terraform-state" \
           -backend-config="key=terraform.tfstate" \
           -backend-config="region=eu-west-1" -
 
       - name: tf validate kube
         run: |
-          terraform validate -chdir=./kubernetes
+          terraform -chdir=./kubernetes validate
 
       - name: tf plan kube
         run: |
-          terraform plan -chdir=./kubernetes
+          terraform -chdir=./kubernetes plan
