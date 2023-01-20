@@ -33,7 +33,7 @@ module "security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4.0"
 
-  name        = "${local.name}"
+  name        = local.name
   description = "Complete PostgreSQL example security group"
   vpc_id      = module.vpc.vpc_id
 

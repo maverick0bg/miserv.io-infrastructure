@@ -1,8 +1,8 @@
 resource "aws_eks_cluster" "eks" {
 
-  name    = local.cluster_name
+  name     = local.cluster_name
   role_arn = aws_iam_role.amazon-role.arn
-  version = "1.24"
+  version  = "1.24"
 
   vpc_config {
     subnet_ids = module.vpc.private_subnets
@@ -40,6 +40,18 @@ resource "kubernetes_cluster_role_binding" "github_oidc_cluster_role_binding" {
     api_group = "rbac.authorization.k8s.io"
   }
 
+  subject {
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = "kube-system"
+  }
+
+  subject {
+    kind      = "Group"
+    name      = "system:masters"
+    api_group = "rbac.authorization.k8s.io"
+  }
+
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
@@ -56,12 +68,27 @@ resource "kubernetes_config_map" "aws-auth" {
         "username" : "system:admin"
       },
       {
-        "groups": ["system:bootstrappers", "system:nodes"],
-        "rolearn": aws_iam_role.amazon-role.arn
-        "username": "system:node:{{EC2PrivateDNSName}}"
+        "groups" : ["system:bootstrappers", "system:nodes"],
+        "rolearn" : aws_iam_role.github_oidc_auth_role.arn
+        "username" : "system:node:{{EC2PrivateDNSName}}"
       },
       {
         "rolearn" : aws_iam_role.github_oidc_auth_role.arn
+        "username" : "github-oidc-auth-user"
+
+      },
+      {
+        "groups" : ["system:bootstrappers", "system:nodes"],
+        "rolearn" : aws_iam_role.amazon-role.arn
+        "username" : "system:admin"
+      },
+      {
+        "groups" : ["system:bootstrappers", "system:nodes"],
+        "rolearn" : aws_iam_role.amazon-role.arn
+        "username" : "system:node:{{EC2PrivateDNSName}}"
+      },
+      {
+        "rolearn" : aws_iam_role.amazon-role.arn
         "username" : "github-oidc-auth-user"
 
       }
