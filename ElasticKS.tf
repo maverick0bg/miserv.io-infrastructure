@@ -1,50 +1,15 @@
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "19.5.1"
+resource "aws_eks_cluster" "eks" {
 
-  cluster_name    = local.cluster_name
-  cluster_version = "1.24"
+  name    = local.cluster_name
+  role_arn = aws_iam_role.amazon-role.arn
 
-  vpc_id                         = module.vpc-eks.vpc_id
-  subnet_ids                     = module.vpc-eks.private_subnets
-  cluster_endpoint_public_access = true
-
-  eks_managed_node_group_defaults = {
-    ami_type = "AL2_x86_64"
-
+  vpc_config {
+    subnet_ids = module.vpc.private_subnets
   }
-
-  # create_aws_auth_configmap = true
-  # manage_aws_auth_configmap = true
-  # aws_auth_roles = [
-  #   {
-  #     userarn  = "arn:aws:iam::527321763428:user/gh-actions"
-  #     username = "gh-actions"
-  #     groups   = ["system:authenticated", "system:bootstrappers", "system:nodes", "eks-console-dashboard-full-access-group"]
-  #   },
-  # ]
-
-  eks_managed_node_groups = {
-    one = {
-      name = "node-group-1"
-
-      instance_types = ["t3.small"]
-
-      min_size     = 1
-      max_size     = 3
-      desired_size = 2
-    }
-
-    two = {
-      name = "node-group-2"
-
-      instance_types = ["t3.small"]
-
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
-    }
-  }
+  depends_on = [
+    aws_iam_role_policy_attachment.amazon-role-AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.amazon-role-AmazonEKSVPCResourceController,
+  ]
 }
 
 
@@ -89,11 +54,11 @@ resource "kubernetes_config_map" "aws-auth" {
         "rolearn" : aws_iam_role.github_oidc_auth_role.arn
         "username" : "system:admin"
       },
-      {
-        "groups": ["system:bootstrappers", "system:nodes"],
-        "rolearn": data.aws_iam_role.workers.arn
-        "username": "system:node:{{EC2PrivateDNSName}}"
-      },
+      # {
+      #   "groups": ["system:bootstrappers", "system:nodes"],
+      #   "rolearn": aws_iam_role.amazon-role.workers.arn
+      #   "username": "system:node:{{EC2PrivateDNSName}}"
+      # },
       {
         "rolearn" : aws_iam_role.github_oidc_auth_role.arn
         "username" : "github-oidc-auth-user"
