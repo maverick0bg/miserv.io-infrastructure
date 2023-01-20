@@ -2,6 +2,7 @@ resource "aws_eks_cluster" "eks" {
 
   name    = local.cluster_name
   role_arn = aws_iam_role.amazon-role.arn
+  version = "1.24"
 
   vpc_config {
     subnet_ids = module.vpc.private_subnets
@@ -56,7 +57,7 @@ resource "kubernetes_config_map" "aws-auth" {
       },
       {
         "groups": ["system:bootstrappers", "system:nodes"],
-        "rolearn": aws_iam_role.amazon-role.workers.arn
+        "rolearn": aws_iam_role.amazon-role.arn
         "username": "system:node:{{EC2PrivateDNSName}}"
       },
       {

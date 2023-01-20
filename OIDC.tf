@@ -62,7 +62,20 @@ resource "aws_iam_role" "github_oidc_auth_role" {
 resource "aws_iam_role" "amazon-role" {
   name = "eks-cluster-role"
 
-  assume_role_policy = data.aws_iam_policy_document.aws_assume_role_policy.json
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "amazon-role-AmazonEKSClusterPolicy" {
@@ -77,30 +90,3 @@ resource "aws_iam_role_policy_attachment" "amazon-role-AmazonEKSVPCResourceContr
   role       = aws_iam_role.amazon-role.name
 }
 
-data "tls_certificate" "aws_cert" {
-  url = aws_eks_cluster.eks.identity[0].oidc[0].issuer
-}
-
-resource "aws_iam_openid_connect_provider" "aws_oid" {
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = data.tls_certificate.aws_cert.certificates[*].sha1_fingerprint
-  url             = data.tls_certificate.aws_cert.url
-}
-
-data "aws_iam_policy_document" "aws_assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.aws_oid.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:aws-node"]
-    }
-
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.aws_oid.arn]
-      type        = "Federated"
-    }
-  }
-}
