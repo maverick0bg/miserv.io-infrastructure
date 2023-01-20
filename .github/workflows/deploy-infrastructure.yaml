@@ -36,4 +36,5 @@ jobs:
 
       - name: Terraform apply
         run: |
+          aws eks update-kubeconfig --region eu-west-1 --name miserv-io-eks-cluster
           terraform apply -auto-approve

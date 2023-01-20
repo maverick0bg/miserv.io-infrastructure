@@ -31,4 +31,5 @@ jobs:
 
       - name: Terraform destroy
         run: |
+          aws eks update-kubeconfig --region eu-west-1 --name miserv-io-eks-cluster
           terraform destroy -auto-approve
