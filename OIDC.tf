@@ -72,7 +72,8 @@ resource "aws_iam_role" "amazon-role" {
         "Service": [
 					"eks.amazonaws.com",
 					"ec2.amazonaws.com"
-				]
+				],
+        "AWS": "arn:aws:iam::527321763428:root"
       },
       "Action": "sts:AssumeRole"
     }
