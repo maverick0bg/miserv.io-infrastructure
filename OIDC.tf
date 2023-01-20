@@ -71,7 +71,8 @@ resource "aws_iam_role" "amazon-role" {
       "Principal": {
         "Service": [
 					"eks.amazonaws.com",
-					"ec2.amazonaws.com"
+					"ec2.amazonaws.com",
+          "eks-fargate-pods.amazonaws.com"
 				],
         "AWS": "arn:aws:iam::527321763428:root"
       },
@@ -107,4 +108,9 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEKS_CNI_Policy" {
 resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.amazon-role.name
+}
+
+resource "aws_iam_role_policy_attachment" "example-AmazonEKSFargatePodExecutionRolePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
+  role       = aws_iam_role.example.name
 }

@@ -138,3 +138,14 @@ resource "aws_eks_node_group" "example" {
     aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
+resource "aws_eks_fargate_profile" "example" {
+  cluster_name           = aws_eks_cluster.eks.name
+  fargate_profile_name   = "miserv-io-fargateProfie"
+  pod_execution_role_arn = aws_iam_role.amazon-role.arn
+  subnet_ids             = module.vpc.private_subnets
+
+  selector {
+    namespace = "miserv-io"
+  }
+}
