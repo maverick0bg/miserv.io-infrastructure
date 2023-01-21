@@ -35,7 +35,7 @@ terraform {
     }
 
     helm = {
-      source = "hashicorp/terraform-provider-helm"
+      source = "hashicorp/helm"
       version = "~>2.8.0"
     }
   }
