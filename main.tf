@@ -53,20 +53,6 @@ module "eks" {
   ]
 }
 
-variable "addons" {
-  type = list(object({
-    name    = string
-    version = string
-  }))
-
-  default = [
-    {
-      name    = "aws-ebs-csi-driver"
-      version = "v1.14.1-eksbuild.1"
-    }
-  ]
-}
-
 resource "aws_eks_addon" "addons" {
   for_each          = { for addon in var.addons : addon.name => addon }
   cluster_name      = module.eks.cluster_name

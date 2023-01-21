@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 locals {
   db_instance_name = "miserv-postgres"
   tags = {

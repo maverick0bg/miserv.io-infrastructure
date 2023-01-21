@@ -1,6 +1,5 @@
 locals {
   region        = "eu-west-1"
-  instance_type = "t2.micro"
   name          = "miserv"
   vpc_cidr      = "10.0.0.0/16"
   azs           = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -17,16 +16,6 @@ terraform {
     random = {
       source  = "hashicorp/random"
       version = "~> 3.4.3"
-    }
-
-    tls = {
-      source  = "hashicorp/tls"
-      version = "~> 4.0.4"
-    }
-
-    cloudinit = {
-      source  = "hashicorp/cloudinit"
-      version = "~> 2.2.0"
     }
 
     kubernetes = {
