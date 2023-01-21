@@ -62,7 +62,7 @@ variable "addons" {
   default = [
     {
       name    = "aws-ebs-csi-driver"
-      version = "v1.4.0-eksbuild.preview"
+      version = "v1.14.1-eksbuild.1"
     }
   ]
 }
