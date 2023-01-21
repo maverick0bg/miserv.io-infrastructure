@@ -124,13 +124,13 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::527321763428:oidc-provider/oidc.eks.region-code.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6"
+          "Federated": "arn:aws:iam::527321763428:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
           "StringEquals": {
-            "oidc.eks.region-code.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:aud": "sts.amazonaws.com",
-            "oidc.eks.region-code.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+            "oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:aud": "sts.amazonaws.com",
+            "oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
           }
         }
       }
