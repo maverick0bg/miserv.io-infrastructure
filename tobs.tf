@@ -1,9 +1,8 @@
 # tobs - The Observability Stack for Kubernetes
+#https://github.com/timescale/tobs/releases/download/20.7.0/tobs-20.7.0.tgz
 resource "helm_release" "tobs" {
   name       = "tobs"
-  repository = "https://charts.timescale.com/"
-  chart      = "timescale/tobs"
-  version    = "20.7.0"
+  chart      = "https://github.com/timescale/tobs/releases/download/20.7.0/tobs-20.7.0.tgz"
   namespace  = "tobs"
   values = [
     file("${path.module}/tobs_values.yaml")

@@ -1,7 +1,7 @@
 locals {
-  region        = "eu-west-1"
-  name          = "miserv"
-  cluster_name  = "miserv-io-eks-cluster"
+  region       = "eu-west-1"
+  name         = "miserv"
+  cluster_name = "miserv-io-eks-cluster"
 }
 
 terraform {
@@ -41,7 +41,7 @@ provider "kubernetes" {
   #   args        = ["eks", "get-token", "--cluster-name", local.cluster_name]
   #   command     = "aws"
   # }
-  token                  = data.aws_eks_cluster_auth.default.token
+  token = data.aws_eks_cluster_auth.default.token
 }
 
 data "aws_availability_zones" "available" {}
