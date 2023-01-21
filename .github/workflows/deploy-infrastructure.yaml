@@ -50,7 +50,14 @@ jobs:
           aws sts get-caller-identity
           terraform -chdir=./kubernetes apply -auto-approve 
 
+      - name: rollout restart
+        run: |
+          aws eks update-kubeconfig --region eu-west-1 --name miserv-io-eks-cluster
+          aws eks get-token --cluster-name miserv-io-eks-cluster
+          aws sts get-caller-identity
+          kubectl cluster-info
+
           kubectl annotate serviceaccount ebs-csi-controller-sa -n kube-system \
             eks.amazonaws.com/role-arn=arn:aws:iam::527321763428:role/AmazonEKS_EBS_CSI_DriverRole
 
-      
+          kubectl rollout restart deployment ebs-csi-controller -n kube-system
