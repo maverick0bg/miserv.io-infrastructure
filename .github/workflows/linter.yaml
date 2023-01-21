@@ -28,8 +28,16 @@ jobs:
         run: terraform fmt -check -recursive -diff
         continue-on-error: true
 
+      - name: Create S3 state bucket
+        run: |
+          aws s3 mb s3://miservio-terraform-state || true
+
       - name: terraform init
-        run: terraform init
+        run: |
+          terraform init \
+            -backend-config="bucket=miservio-terraform-state" \
+            -backend-config="key=terraform.tfstate" \
+            -backend-config="region=eu-west-1"
 
       - name: terraform validate
         run: terraform validate
@@ -46,6 +54,7 @@ jobs:
           key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
       - uses: terraform-linters/setup-tflint@v3
         name: setup tflint
+        
       - name: init tflint
         run: tflint --init --config .tflint.hcl
       - name: run tflint
