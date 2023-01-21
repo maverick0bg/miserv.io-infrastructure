@@ -39,7 +39,7 @@ module "eks" {
 
   manage_aws_auth_configmap = true
   aws_auth_roles = [
-    
+
     {
       "groups" : ["system:masters"],
       "rolearn" : aws_iam_role.github_oidc_auth_role.arn

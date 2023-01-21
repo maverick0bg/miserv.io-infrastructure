@@ -50,4 +50,7 @@ jobs:
           aws sts get-caller-identity
           terraform -chdir=./kubernetes apply -auto-approve 
 
+          kubectl annotate serviceaccount ebs-csi-controller-sa -n kube-system \
+            eks.amazonaws.com/role-arn=arn:aws:iam::527321763428:role/AmazonEKS_EBS_CSI_DriverRole
+
       

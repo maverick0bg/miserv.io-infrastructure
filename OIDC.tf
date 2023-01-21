@@ -114,3 +114,32 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEKSFargatePodExecutionR
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
   role       = aws_iam_role.amazon-role.name
 }
+
+resource "aws_iam_role" "ebs_csi_driver_role" {
+  name               = "ebs_csi_driver_role"
+  assume_role_policy = <<POLICY1
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Federated": "arn:aws:iam::527321763428:oidc-provider/oidc.eks.region-code.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6"
+        },
+        "Action": "sts:AssumeRoleWithWebIdentity",
+        "Condition": {
+          "StringEquals": {
+            "oidc.eks.region-code.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:aud": "sts.amazonaws.com",
+            "oidc.eks.region-code.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+          }
+        }
+      }
+    ]
+  }
+  POLICY1
+}
+
+resource "aws_iam_role_policy_attachment" "atachment-AmazonEKS_EBS_CSI_DriverRole" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.ebs_csi_driver_role.name
+}
