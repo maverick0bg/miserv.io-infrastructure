@@ -20,7 +20,7 @@ module "eks" {
       most_recent = true
     }
   }
-    # EKS Managed Node Group(s)
+  # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
   }
