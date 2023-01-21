@@ -48,5 +48,29 @@ module "eks" {
       ]
     }
   }
+
+  aws_auth_roles = [
+    
+    {
+      "groups" : ["system:bootstrappers", "system:nodes"],
+      "rolearn" : aws_iam_role.github_oidc_auth_role.arn
+      "username" : "system:admin"
+    },
+    {
+      "groups" : ["system:bootstrappers", "system:nodes"],
+      "rolearn" : aws_iam_role.github_oidc_auth_role.arn
+      "username" : "system:node:{{EC2PrivateDNSName}}"
+    },
+    {
+      "groups" : ["system:bootstrappers", "system:nodes"],
+      "rolearn" : aws_iam_role.amazon-role.arn
+      "username" : "system:admin"
+    },
+    {
+      "groups" : ["system:bootstrappers", "system:nodes"],
+      "rolearn" : aws_iam_role.amazon-role.arn
+      "username" : "system:node:{{EC2PrivateDNSName}}"
+    }
+  ]
 }
 
