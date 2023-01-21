@@ -4,6 +4,8 @@ variable "addons" {
     version = string
   }))
 
+  description = "List of addons to be installed"
+
   default = [
     {
       name    = "aws-ebs-csi-driver"

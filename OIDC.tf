@@ -59,7 +59,7 @@ resource "aws_iam_role" "github_oidc_auth_role" {
   name               = "github-oidc-auth-role"
 }
 
-resource "aws_iam_role" "amazon-role" {
+resource "aws_iam_role" "amazon_role" {
   name = "eks-cluster-role"
 
   assume_role_policy = <<POLICY
@@ -83,36 +83,36 @@ resource "aws_iam_role" "amazon-role" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "amazon-role-AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "amazon_role_AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.amazon-role.name
+  role       = aws_iam_role.amazon_role.name
 }
 
 # Optionally, enable Security Groups for Pods
 # Reference: https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html
-resource "aws_iam_role_policy_attachment" "amazon-role-AmazonEKSVPCResourceController" {
+resource "aws_iam_role_policy_attachment" "amazon_role_AmazonEKSVPCResourceController" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
-  role       = aws_iam_role.amazon-role.name
+  role       = aws_iam_role.amazon_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "amazon_role_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.amazon-role.name
+  role       = aws_iam_role.amazon_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "example-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "amazon_role_AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.amazon-role.name
+  role       = aws_iam_role.amazon_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "amazon_role_AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.amazon-role.name
+  role       = aws_iam_role.amazon_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "example-AmazonEKSFargatePodExecutionRolePolicy" {
+resource "aws_iam_role_policy_attachment" "amazon_role_AmazonEKSFargatePodExecutionRolePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
-  role       = aws_iam_role.amazon-role.name
+  role       = aws_iam_role.amazon_role.name
 }
 
 resource "aws_iam_role" "ebs_csi_driver_role" {
@@ -139,7 +139,7 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
   POLICY1
 }
 
-resource "aws_iam_role_policy_attachment" "atachment-AmazonEKS_EBS_CSI_DriverRole" {
+resource "aws_iam_role_policy_attachment" "atachment_AmazonEKS_EBS_CSI_DriverRole" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   role       = aws_iam_role.ebs_csi_driver_role.name
 }

@@ -47,7 +47,7 @@ module "eks" {
     },
     {
       "groups" : ["system:masters"],
-      "rolearn" : aws_iam_role.amazon-role.arn
+      "rolearn" : aws_iam_role.amazon_role.arn
       "username" : "maverick.bg"
     }
   ]
