@@ -33,6 +33,11 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.16.1"
     }
+
+    helm = {
+      source = "hashicorp/terraform-provider-helm"
+      version = "~>2.8.0"
+    }
   }
 
   required_version = "~>1.3.6"
@@ -48,4 +53,10 @@ data "aws_availability_zones" "available" {}
 resource "random_string" "suffix" {
   length  = 8
   special = false
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
