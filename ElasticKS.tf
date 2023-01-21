@@ -37,18 +37,6 @@ module "eks" {
     }
   }
 
-  # Fargate Profile(s)
-  fargate_profiles = {
-    default = {
-      name = "fg-${local.name}"
-      selectors = [
-        {
-          namespace = "miserv-io"
-        }
-      ]
-    }
-  }
-
   manage_aws_auth_configmap = true
   aws_auth_roles = [
     
