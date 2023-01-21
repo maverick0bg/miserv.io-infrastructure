@@ -58,6 +58,6 @@ jobs:
           kubectl cluster-info
 
           kubectl annotate serviceaccount ebs-csi-controller-sa -n kube-system \
-            eks.amazonaws.com/role-arn=arn:aws:iam::527321763428:role/AmazonEKS_EBS_CSI_DriverRole
+            eks.amazonaws.com/role-arn=arn:aws:iam::527321763428:role/ebs_csi_driver_role
 
           kubectl rollout restart deployment ebs-csi-controller -n kube-system
