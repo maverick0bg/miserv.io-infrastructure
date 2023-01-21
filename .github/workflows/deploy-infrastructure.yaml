@@ -47,6 +47,7 @@ jobs:
 
       - name: tf apply
         run: |
+          aws sts get-caller-identity
           terraform -chdir=./kubernetes apply -auto-approve 
 
       
