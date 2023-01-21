@@ -1,11 +1,11 @@
 # tobs - The Observability Stack for Kubernetes
 resource "helm_release" "tobs" {
-  name       = "tobs"
-  repository = "https://charts.timescale.com/"
-  chart      = "timescale/tobs"
-
+  name       = "kube-prometheus-stack"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "prometheus-community/kube-prometheus-stack"
+  namespace  = "tobs"
   values = [
-    file("${path.module}/tobs_values.yaml")
+    file("${path.module}/kps_values.yaml")
   ]
 
 
