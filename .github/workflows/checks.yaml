@@ -47,7 +47,7 @@ jobs:
           terraform -chdir=./kubernetes init \
           -backend-config="bucket=miservio-terraform-state" \
           -backend-config="key=terraform-kube.tfstate" \
-          -backend-config="region=eu-west-1" -
+          -backend-config="region=eu-west-1" 
 
       - name: tf validate kube
         run: |

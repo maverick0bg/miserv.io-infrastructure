@@ -47,22 +47,8 @@ module "eks" {
     },
     {
       "groups" : ["system:masters"],
-      "rolearn" : aws_iam_role.amazon-role.arn
+      "rolearn" : aws_iam_role.amazon_role.arn
       "username" : "maverick.bg"
-    }
-  ]
-}
-
-variable "addons" {
-  type = list(object({
-    name    = string
-    version = string
-  }))
-
-  default = [
-    {
-      name    = "aws-ebs-csi-driver"
-      version = "v1.14.1-eksbuild.1"
     }
   ]
 }

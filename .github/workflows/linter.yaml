@@ -1,0 +1,71 @@
+---
+name: linter
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  terraform-validate:
+    name: code format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      # https://github.com/hashicorp/setup-terraform
+      - uses: hashicorp/setup-terraform@v2
+
+      - name: Cache terraform folder
+        uses: actions/cache@v3
+        with:
+          path: ./.terraform
+          key: terraform
+
+      - name: terraform fmt
+        run: terraform fmt -check -recursive -diff
+        continue-on-error: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Create S3 state bucket
+        run: |
+          aws s3 mb s3://miservio-terraform-state || true
+
+      - name: terraform init
+        run: |
+          terraform init \
+            -backend-config="bucket=miservio-terraform-state" \
+            -backend-config="key=terraform.tfstate" \
+            -backend-config="region=eu-west-1"
+
+      - name: terraform validate
+        run: terraform validate
+
+  tflint:
+    name: "tflint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        name: Cache tflint plugin dir
+        with:
+          path: ~/.tflint.d/plugins
+          key: x86-tflint-${{ hashFiles('.tflint.hcl') }}
+
+      - uses: terraform-linters/setup-tflint@v3
+        name: setup tflint
+        
+      - name: init tflint
+        run: tflint --init --config .tflint.hcl
+
+      - name: run tflint
+        run: tflint -f compact --config .tflint.hcl
