@@ -42,15 +42,3 @@ resource "kubernetes_cluster_role_binding" "github_oidc_cluster_role_binding" {
     name      = kubernetes_cluster_role.github_oidc_cluster_role.metadata[0].name
   }
 }
-
-resource "kubernetes_namespace" "miserv_io" {
-  metadata {
-    name = "miserv-io"
-  }
-}
-
-resource "kubernetes_namespace" "tobs" {
-  metadata {
-    name = "tobs"
-  }
-}

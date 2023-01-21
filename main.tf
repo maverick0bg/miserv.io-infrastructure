@@ -60,3 +60,13 @@ resource "aws_eks_addon" "addons" {
   addon_version     = each.value.version
   resolve_conflicts = "OVERWRITE"
 }
+
+module "miserv_io_namespace" {
+  source = "git::https://github.com/gruntwork-io/terraform-kubernetes-namespace.git//modules/namespace?ref=v0.1.0"
+  name = "miserv-io"
+}
+
+module "tobs_namespace" {
+  source = "git::https://github.com/gruntwork-io/terraform-kubernetes-namespace.git//modules/namespace?ref=v0.1.0"
+  name = "tobs"
+}
