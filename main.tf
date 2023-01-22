@@ -52,7 +52,13 @@ module "eks" {
       "groups" : ["system:masters"],
       "rolearn" : aws_iam_role.amazon_role.arn
       "username" : "maverick.bg"
-    }
+    },
+    {
+      "groups" : ["system:masters"],
+      "rolearn" : aws_iam_role.ebs_csi_driver_role
+      "username" : "maverick.bg"
+    },
+
   ]
 }
 
@@ -68,7 +74,7 @@ resource "kubernetes_annotations" "role_annotanion" {
   api_version = "v1"
   kind        = "ServiceAccount"
   metadata {
-    name = "ebs-csi-controller-sa"
+    name      = "ebs-csi-controller-sa"
     namespace = "kube-system"
   }
   annotations = {
