@@ -63,10 +63,10 @@ resource "aws_eks_addon" "addons" {
 
 module "miserv_io_namespace" {
   source = "git::https://github.com/gruntwork-io/terraform-kubernetes-namespace.git//modules/namespace?ref=v0.1.0"
-  name = "miserv-io"
+  name   = "miserv-io"
 }
 
 module "tobs_namespace" {
   source = "git::https://github.com/gruntwork-io/terraform-kubernetes-namespace.git//modules/namespace?ref=v0.1.0"
-  name = "tobs"
+  name   = "tobs"
 }
