@@ -61,12 +61,14 @@ resource "aws_eks_addon" "addons" {
   resolve_conflicts = "OVERWRITE"
 }
 
-resource "kubernetes_service_account" "ebs_csi_controller_sa" {
+resource "kubernetes_annotations" "role_annotanion" {
+  api_version = "v1"
+  kind        = "serviceaccount"
   metadata {
     name = "ebs-csi-controller-sa"
-    annotations = {
-      "eks.amazonaws.com/role-arn": "arn:aws:iam::527321763428:role/ebs_csi_driver_role"
-    }
+  }
+  annotations = {
+    "eks.amazonaws.com/role-arn" = "myteam"
   }
 }
 
