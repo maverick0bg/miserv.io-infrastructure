@@ -19,6 +19,9 @@ module "eks" {
     vpc-cni = {
       most_recent = true
     }
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
   }
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
@@ -53,13 +56,13 @@ module "eks" {
   ]
 }
 
-resource "aws_eks_addon" "addons" {
-  for_each          = { for addon in var.additional_addons : addon.name => addon }
-  cluster_name      = module.eks.cluster_name
-  addon_name        = each.value.name
-  addon_version     = each.value.version
-  resolve_conflicts = "OVERWRITE"
-}
+#resource "aws_eks_addon" "addons" {
+#  for_each          = { for addon in var.additional_addons : addon.name => addon }
+#  cluster_name      = module.eks.cluster_name
+#  addon_name        = each.value.name
+#  addon_version     = each.value.version
+#  resolve_conflicts = "OVERWRITE"
+#}
 
 resource "kubernetes_annotations" "role_annotanion" {
   api_version = "v1"
@@ -73,9 +76,7 @@ resource "kubernetes_annotations" "role_annotanion" {
 
   force = true
   depends_on = [
-
     module.eks,
-    aws_eks_addon.addons["ebs-csi-controller-sa"],
   ]
 }
 

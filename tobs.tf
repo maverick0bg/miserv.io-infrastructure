@@ -13,9 +13,6 @@ resource "helm_release" "tobs" {
   recreate_pods = false
 
   depends_on = [
-
-    aws_eks_addon.addons,
     kubernetes_annotations.role_annotanion
-
   ]
 }
