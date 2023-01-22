@@ -128,7 +128,7 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
-          "StringEquals": {
+          "StringLike": {
             "oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:aud": "sts.amazonaws.com",
             "oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
           }
