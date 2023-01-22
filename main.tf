@@ -54,7 +54,7 @@ module "eks" {
 }
 
 resource "aws_eks_addon" "addons" {
-  for_each          = { for addon in var.addons : addon.name => addon }
+  for_each          = { for addon in var.additional_addons : addon.name => addon }
   cluster_name      = module.eks.cluster_name
   addon_name        = each.value.name
   addon_version     = each.value.version
@@ -72,6 +72,11 @@ resource "kubernetes_annotations" "role_annotanion" {
   }
 
   force = true
+  depends_on = [
+
+    module.eks,
+    aws_eks_addon.addons["ebs-csi-controller-sa"],
+  ]
 }
 
 module "miserv_io_namespace" {
