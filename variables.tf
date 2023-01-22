@@ -1,4 +1,4 @@
-variable "addons" {
+variable "additional_addons" {
   type = list(object({
     name    = string
     version = string
