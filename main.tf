@@ -63,7 +63,7 @@ resource "aws_eks_addon" "addons" {
 
 resource "kubernetes_annotations" "role_annotanion" {
   api_version = "v1"
-  kind        = "serviceaccount"
+  kind        = "ServiceAccount"
   metadata {
     name = "ebs-csi-controller-sa"
   }
