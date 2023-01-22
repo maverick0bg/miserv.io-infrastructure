@@ -61,6 +61,15 @@ resource "aws_eks_addon" "addons" {
   resolve_conflicts = "OVERWRITE"
 }
 
+resource "kubernetes_service_account" "ebs_csi_controller_sa" {
+  metadata {
+    name = "ebs-csi-controller-sa"
+    annotations = {
+      "eks.amazonaws.com/role-arn": "arn:aws:iam::527321763428:role/ebs_csi_driver_role"
+    }
+  }
+}
+
 module "miserv_io_namespace" {
   source = "git::https://github.com/gruntwork-io/terraform-kubernetes-namespace.git//modules/namespace?ref=v0.1.0"
   name   = "miserv-io"
