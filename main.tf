@@ -69,12 +69,13 @@ resource "kubernetes_annotations" "role_annotanion" {
   kind        = "ServiceAccount"
   metadata {
     name = "ebs-csi-controller-sa"
+    namespace = "kube-system"
   }
   annotations = {
     "eks.amazonaws.com/role-arn" = "arn:aws:iam::527321763428:role/ebs_csi_driver_role"
   }
 
-  #force = true
+  force = true
   depends_on = [
     module.eks,
   ]
