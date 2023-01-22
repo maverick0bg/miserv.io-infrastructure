@@ -11,7 +11,7 @@ resource "helm_release" "tobs" {
   depends_on = [
 
     aws_eks_addon.addons,
-    annotations.role_annotanion
+    kubernetes_annotations.role_annotanion
 
   ]
 }
