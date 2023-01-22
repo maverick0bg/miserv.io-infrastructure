@@ -68,8 +68,10 @@ resource "kubernetes_annotations" "role_annotanion" {
     name = "ebs-csi-controller-sa"
   }
   annotations = {
-    "eks.amazonaws.com/role-arn" = "myteam"
+    "eks.amazonaws.com/role-arn" = "arn:aws:iam::527321763428:role/ebs_csi_driver_role"
   }
+
+  force = true
 }
 
 module "miserv_io_namespace" {
