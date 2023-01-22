@@ -56,3 +56,4 @@ jobs:
           aws eks get-token --cluster-name miserv-io-eks-cluster
           aws sts get-caller-identity
           kubectl cluster-info
+          kubectl rollout restart deployment ebs-csi-controller -n kube-system
