@@ -55,7 +55,7 @@ module "eks" {
     },
     {
       "groups" : ["system:masters"],
-      "rolearn" : aws_iam_role.ebs_csi_driver_role
+      "rolearn" : aws_iam_role.ebs_csi_driver_role.arn
       "username" : "maverick.bg"
     },
 
