@@ -8,6 +8,10 @@ resource "helm_release" "tobs" {
     file("${path.module}/tobs_values.yaml")
   ]
 
+  force_update  = true
+  wait          = false
+  recreate_pods = false
+
   depends_on = [
 
     aws_eks_addon.addons,
