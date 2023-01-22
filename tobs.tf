@@ -1,18 +1,18 @@
-# # tobs - The Observability Stack for Kubernetes
-# #https://github.com/timescale/tobs/releases/download/20.7.0/tobs-20.7.0.tgz
-# resource "helm_release" "tobs" {
-#   name      = "tobs"
-#   chart     = "https://github.com/timescale/tobs/releases/download/20.7.0/tobs-20.7.0.tgz"
-#   namespace = "tobs"
-#   values = [
-#     file("${path.module}/tobs_values.yaml")
-#   ]
+# tobs - The Observability Stack for Kubernetes
+#https://github.com/timescale/tobs/releases/download/20.7.0/tobs-20.7.0.tgz
+resource "helm_release" "tobs" {
+  name      = "tobs"
+  chart     = "https://github.com/timescale/tobs/releases/download/20.7.0/tobs-20.7.0.tgz"
+  namespace = "tobs"
+  values = [
+    file("${path.module}/tobs_values.yaml")
+  ]
 
-#   force_update  = true
-#   wait          = false
-#   recreate_pods = false
+  force_update  = true
+  wait          = false
+  recreate_pods = false
 
-#   depends_on = [
-#     kubernetes_annotations.role_annotanion
-#   ]
-# }
+  depends_on = [
+    kubernetes_annotations.role_annotanion
+  ]
+}
