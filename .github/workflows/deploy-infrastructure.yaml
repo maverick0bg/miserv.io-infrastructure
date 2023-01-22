@@ -1,7 +1,7 @@
 name: Deploy miserv.io infrastructure
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "after_submission"]
 
 jobs:
   deploy_aws_infrastructure:
