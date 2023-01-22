@@ -74,7 +74,7 @@ resource "kubernetes_annotations" "role_annotanion" {
     "eks.amazonaws.com/role-arn" = "arn:aws:iam::527321763428:role/ebs_csi_driver_role"
   }
 
-  force = true
+  #force = true
   depends_on = [
     module.eks,
   ]
