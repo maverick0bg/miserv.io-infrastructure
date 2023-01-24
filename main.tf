@@ -78,7 +78,7 @@ resource "kubernetes_annotations" "role_annotanion" {
     namespace = "kube-system"
   }
   annotations = {
-    "eks.amazonaws.com/role-arn=arn:aws:iam::527321763428:role/ebs_csi_driver_role"
+    "eks.amazonaws.com/role-arn" = "arn:aws:iam::527321763428:role/ebs_csi_driver_role"
   }
 
   force = true
