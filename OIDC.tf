@@ -115,6 +115,7 @@ resource "aws_iam_role_policy_attachment" "amazon_role_amazon_eks_fargate_pod_ex
   role       = aws_iam_role.amazon_role.name
 }
 
+#https://dev.to/aws-builders/provisioning-a-persistent-ebs-backed-storage-on-amazon-eks-using-helm-4gh4
 resource "aws_iam_role" "ebs_csi_driver_role" {
   name               = "ebs_csi_driver_role"
   assume_role_policy = <<POLICY1
@@ -124,13 +125,13 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::527321763428:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6"
+          "Federated": "arn:aws:iam::527321763428:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/id/D3D815BB4D928270416747E3E61F7ADC"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
           "StringEquals": {
-            "oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:aud": "sts.amazonaws.com",
-            "oidc.eks.eu-west-1.amazonaws.com/id/B3C42311D68E21B4984D55F33F8800E6:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+            "oidc.eks.eu-west-1.amazonaws.com/id/D3D815BB4D928270416747E3E61F7ADC:aud": "sts.amazonaws.com",
+            "oidc.eks.eu-west-1.amazonaws.com/id/D3D815BB4D928270416747E3E61F7ADC:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
           }
         }
       }
